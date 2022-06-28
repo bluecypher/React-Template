@@ -1,11 +1,18 @@
 // import
 import React, { Component } from 'react';
+
 import Dashboard from "views/Dashboard/Dashboard.js";
 import Tables from "views/Dashboard/Tables.js";
 import Billing from "views/Dashboard/Billing.js";
 import Profile from "views/Dashboard/Profile.js";
-import SignIn from "views/Pages/SignIn.js";
-import SignUp from "views/Pages/SignUp.js";
+
+import SignIn from "views/Pages/Logins/SignIn.js";
+import SignUp from "views/Pages/Logins/SignUp.js";
+import SetPin from "views/Pages/Logins/SetPin.js";
+
+import EnterpriseProfile from "views/Pages/Profile Forms/EnterpriseProfile.js";
+import ProductProfile from "views/Pages/Profile Forms/ProductProfile.js";
+import TeamProfile from "views/Pages/Profile Forms/TeamProfile.js";
 
 import {
   HomeIcon,
@@ -64,6 +71,13 @@ var dashRoutes = [
         name: "Sign Up",
         icon: <RocketIcon color='inherit' />,
         component: SignUp,
+        layout: "/auth",
+      },
+      {
+        path: "/setpin",
+        name: "Set Pin",
+        icon: <DocumentIcon color='inherit' />,
+        component: SetPin,
         layout: "/auth",
       },
     ],
