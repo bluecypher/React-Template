@@ -16,31 +16,7 @@ import {
 } from "@chakra-ui/react";
 // Assets
 import signInImage from "assets/img/signInImage.png";
-import { FaApple, FaFacebook, FaGoogle } from "react-icons/fa";
-
-function validateOTP(event){
-  var otp = event.target.value
-  // if(otp.length == 6)
-    if (otp > parseInt("000000",10) && otp < parseInt("999999",10) ){
-      console.log("ok")
-    }
-    else{
-      console.log("Enter a Numeric PIN")
-    }
-}
-function confirmOTP(event){
-  var otp = document.getElementById("usrPin").value
-  var cnfotp = event.target.value
-  // console.log(otp, cnfotp)
-  if(cnfotp == otp){
-    console.log("PIN confirmed: ", otp, cnfotp)
-  }
-  else{
-    console.log("PIN doesn't match")
-  }
-}
-
-function SetPin() {
+function SignIn() {
   // Chakra color mode
   const textColor = useColorModeValue("gray.700", "white");
   const bgForm = useColorModeValue("white", "navy.800");
@@ -48,7 +24,6 @@ function SetPin() {
   const colorIcons = useColorModeValue("gray.700", "white");
   const bgIcons = useColorModeValue("trasnparent", "navy.700");
   const bgIconsHover = useColorModeValue("gray.50", "whiteAlpha.100");
-
   return (
     <Flex position='relative' mb='40px'>
       <Flex
@@ -87,51 +62,49 @@ function SetPin() {
               fontWeight='bold'
               textAlign='center'
               mb='22px'>
-              Set Pin
+              Sign In
             </Text>
-            <Text
-              fontSize='lg'
-              color='gray.400'
-              fontWeight='bold'
-              textAlign='left'
-              mb='20px'>
-              Create a six digit PIN of your choice.
-            </Text>
-            <FormControl>
+            <FormControl onSubmit="">
+              <Input
+                variant='auth'
+                fontSize='sm'
+                ms='4px'
+                type='tel'
+                name="MobNo"
+                pattern="[0-9]{10}"
+                maxLength="10"
+                placeholder='Enter your Mobile Number'
+                mb='24px'
+                size='lg'
+                required
+              />
               <Input
                 variant='auth'
                 fontSize='sm'
                 ms='4px'
                 type='password'
-                name="usrPin"
-                id="usrPin"
-                maxLength="6"
+                name="pin"
                 placeholder='Enter PIN'
-                mb='24px'
-                size='lg'
-                onChange={validateOTP}
-              />
-              <Input
-                variant='auth'
-                fontSize='sm'
-                ms='4px'
-                type='password'
                 maxLength="6"
-                name="cnfPin"
-                id="cnfPin"
-                placeholder='Confirm PIN'
                 mb='24px'
                 size='lg'
-                onChange={confirmOTP}
+                required
               />
+              <FormControl display='flex' alignItems='center' mb='24px'>
+                <Switch id='remember-login' colorScheme='blue' me='10px' />
+                <FormLabel htmlFor='remember-login' mb='0' fontWeight='normal'>
+                  Remember me
+                </FormLabel>
+              </FormControl>
               <Button
                 fontSize='10px'
                 variant='dark'
                 fontWeight='bold'
                 w='100%'
                 h='45'
-                mb='24px'>
-                CREATE PIN
+                mb='24px'
+                type="submit">
+                SIGN IN
               </Button>
             </FormControl>
           </Flex>
@@ -155,4 +128,4 @@ function SetPin() {
   );
 }
 
-export default SetPin;
+export default SignIn;

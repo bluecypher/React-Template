@@ -6,13 +6,11 @@ import Tables from "views/Dashboard/Tables.js";
 import Billing from "views/Dashboard/Billing.js";
 import Profile from "views/Dashboard/Profile.js";
 
-import SignIn from "views/Pages/Logins/SignIn.js";
-import SignUp from "views/Pages/Logins/SignUp.js";
-import SetPin from "views/Pages/Logins/SetPin.js";
+import SignIn from "views/Forms/UserLogin/SignIn.js";
+import SignUp from "views/Forms/UserLogin/SignUp.js";
+import SetPin from "views/Forms/UserLogin/SetPin.js";
 
-import EnterpriseProfile from "views/Pages/Profile Forms/EnterpriseProfile.js";
-import ProductProfile from "views/Pages/Profile Forms/ProductProfile.js";
-import TeamProfile from "views/Pages/Profile Forms/TeamProfile.js";
+import MainProfileForm from 'views/Forms/ProfileForm.js';
 
 import {
   HomeIcon,
@@ -23,6 +21,7 @@ import {
   RocketIcon,
   SupportIcon,
 } from "components/Icons/Icons";
+
 
 var dashRoutes = [
   {
@@ -58,6 +57,9 @@ var dashRoutes = [
         secondaryNavbar: true,
         component: Profile,
         layout: "/admin",
+        views:[
+          
+        ]
       },
       {
         path: "/signin",
@@ -78,6 +80,13 @@ var dashRoutes = [
         name: "Set Pin",
         icon: <DocumentIcon color='inherit' />,
         component: SetPin,
+        layout: "/auth",
+      },
+      {
+        path: "/profileform",
+        name: "Profile Form",
+        icon: <DocumentIcon color='inherit' />,
+        component: MainProfileForm,
         layout: "/auth",
       },
     ],

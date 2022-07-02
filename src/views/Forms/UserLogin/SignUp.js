@@ -19,7 +19,10 @@ import BgSignUp from "assets/img/BgSignUp.png";
 import React from "react";
 
 function showOTPform() {
+  let mobno = document.getElementById("form-MobNo").value
   let form = document.getElementById("SignUpOTPForm")
+  if(mobno === '')
+    return;
   form.style.visibility="visible"
 }
 
@@ -106,13 +109,14 @@ function SignUp() {
             Please enter your Mobile Number
           </Text>
           <FormControl type="number">
-            <form action="" id="SignUpForm">  
+            <form action="" method="" id="SignUpForm">  
               <Input
                 variant='auth'
                 fontSize='sm'
                 ms='4px'
                 type='tel'
                 name="MobNo"
+                id="form-MobNo"
                 pattern="[0-9]{10}"
                 maxLength="10"
                 placeholder='Mobile Number'
@@ -134,8 +138,7 @@ function SignUp() {
             </form>
           </FormControl>
           <FormControl >
-            <form id="SignUpOTPForm" style={{visibility:"hidden"}}>
-
+            <form id="SignUpOTPForm" action="" method="" style={{visibility:"hidden"}}>
               <Input
                 variant='auth'
                 fontSize='sm'
