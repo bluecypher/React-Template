@@ -1,8 +1,8 @@
 // import
-import { useRoutes,Navigate } from 'react-router-dom';
+import { useRoutes, Navigate } from 'react-router-dom';
 import React, { Component, lazy } from 'react';
 
-import Dashboard from "views/Dashboard/Dashboard.js";
+import Dashboard from "./views/Dashboard/Dashboard";
 import Tables from "views/Dashboard/Tables.js";
 import Billing from "views/Dashboard/Billing.js";
 import Profile from "views/Dashboard/Profile.js";
@@ -16,6 +16,7 @@ import MainProfileForm from 'views/Forms/ProfileForm.js';
 import EnterpriseProfile from 'components/Forms/ProfileForms/EnterpriseProfile';
 import ProductProfile from 'components/Forms/ProfileForms/ProductProfile';
 import TeamProfile from 'components/Forms/ProfileForms/TeamProfile';
+import Admin from "./layouts/Admin";
 
 import {
   HomeIcon,
@@ -26,6 +27,7 @@ import {
   RocketIcon,
   SupportIcon,
 } from "components/Icons/Icons";
+
 
 
 
@@ -63,8 +65,8 @@ import {
 //         secondaryNavbar: true,
 //         component: Profile,
 //         layout: "/admin",
-//         views:[
-          
+//         views: [
+
 //         ]
 //       },
 //       {
@@ -103,7 +105,7 @@ import {
 export default function dashRoutes() {
   return useRoutes([
     {
-      path:'/',
+      path: '/',
       element: <AuthLayout />,
       children: [
         {
@@ -120,10 +122,10 @@ export default function dashRoutes() {
       ]
     },
     {
-      path:'/profile',
+      path: '/profile',
       element: <MainProfileForm />,
       children: [
-        
+
         {
           path: "enterprise",
           element: <EnterpriseProfile />
@@ -136,6 +138,18 @@ export default function dashRoutes() {
           path: "team",
           element: <TeamProfile />
         },
+
+
+      ]
+    },
+    {
+      path: "/admin",
+      element: <Admin />,
+      children: [
+        {
+          path: "dashboard",
+          element: <Dashboard />
+        }
       ]
     }
   ]);

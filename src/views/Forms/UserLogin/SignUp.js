@@ -21,9 +21,9 @@ import React from "react";
 function showOTPform() {
   let mobno = document.getElementById("form-MobNo").value
   let form = document.getElementById("SignUpOTPForm")
-  if(mobno === '')
+  if (mobno === '')
     return;
-  form.style.visibility="visible"
+  form.style.visibility = "visible"
 }
 
 function SignUp() {
@@ -109,7 +109,7 @@ function SignUp() {
             Please enter your Mobile Number
           </Text>
           <FormControl type="number">
-            <form action="" method="" id="SignUpForm">  
+            <form action="" method="" id="SignUpForm">
               <Input
                 variant='auth'
                 fontSize='sm'
@@ -130,7 +130,7 @@ function SignUp() {
                 fontWeight='bold'
                 w='100%'
                 h='45'
-                mb='24px' 
+                mb='24px'
                 type="submit"
                 onClick={showOTPform}>
                 NEXT
@@ -138,7 +138,7 @@ function SignUp() {
             </form>
           </FormControl>
           <FormControl >
-            <form id="SignUpOTPForm" action="" method="" style={{visibility:"hidden"}}>
+            <form id="SignUpOTPForm" action="" method="" style={{ visibility: "hidden" }}>
               <Input
                 variant='auth'
                 fontSize='sm'

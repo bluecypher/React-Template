@@ -29,7 +29,7 @@ import PanelContainer from "../components/Layout/PanelContainer";
 import PanelContent from "../components/Layout/PanelContent";
 import bgAdmin from "assets/img/admin-background.png";
 
-export default function Dashboard(props) {
+export default function Admin(props) {
   const { ...rest } = props;
   // states and functions
   const [fixed, setFixed] = useState(false);
@@ -118,7 +118,7 @@ export default function Dashboard(props) {
         top='0'
       />
       <Sidebar
-        routes={routes}
+        // routes={dashroutes}
         logo={
           <Stack direction='row' spacing='12px' align='center' justify='center'>
             {/* {colorMode === "dark" ? (
@@ -126,17 +126,13 @@ export default function Dashboard(props) {
             ) : (
               <ArgonLogoDark w='74px' h='27px' />
             )} */}
-            <Text fontSize='4xl'>Sahayak</Text>
+            <Text fontSize='12'>Sahayak</Text>
             <Box
               w='1px'
               h='20px'
               bg={colorMode === "dark" ? "white" : "gray.700"}
             />
-            {colorMode === "dark" ? (
-              <ChakraLogoLight w='82px' h='21px' />
-            ) : (
-              <ChakraLogoDark w='82px' h='21px' />
-            )}
+
           </Stack>
         }
         display='none'
@@ -156,19 +152,19 @@ export default function Dashboard(props) {
             {...rest}
           />
         </Portal>
-        {getRoute() ? (
-          <PanelContent>
-            <PanelContainer>
-              {/* <Switch>
+
+        <PanelContent>
+          <PanelContainer>
+            {/* <Switch>
                 {getRoutes(routes)}
                 <Redirect from='/admin' to='/admin/dashboard' />
               </Switch> */}
-              <Outlet />
-            </PanelContainer>
-          </PanelContent>
-        ) : null}
+            <Outlet />
+          </PanelContainer>
+        </PanelContent>
+
         <Footer />
-        <Portal>
+        {/* <Portal>
           <FixedPlugin
             secondary={getActiveNavbar(routes)}
             fixed={fixed}
@@ -183,8 +179,9 @@ export default function Dashboard(props) {
           onSwitch={(value) => {
             setFixed(value);
           }}
-        />
+        /> */}
       </MainPanel>
     </Box>
+    // <Outlet />
   );
 }

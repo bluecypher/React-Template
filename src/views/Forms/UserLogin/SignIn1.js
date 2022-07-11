@@ -1,33 +1,31 @@
-import React, { useState } from "react";
+import React from "react";
 import * as Yup from 'yup';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { useFormik, Form, FormikProvider } from 'formik';
+import { FormikProvider, useFormik, Form } from 'formik';
 // Chakra imports
 import {
   Box,
   Flex,
   Button,
-  FormControl,
-  FormLabel,
-  HStack,
+  // FormControl,
+  // FormErrorMessage,
+  // FormLabel,
+  // AlertIcon,
+  // Alert,
+  // HStack,
   Input,
-  Icon,
+  // Icon,
   Link,
-  Switch,
+  // Switch,
+  Stack,
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-const axios = require('axios');
-const CryptoJS = require("crypto-js");
 // Assets
 import signInImage from "assets/img/signInImage.png";
-// import { FaApple, FaFacebook, FaGoogle } from "react-icons/fa";
-
-
-
-function SetPin() {
-  // Chakra color mode
+function SignIn() {
   const navigate = useNavigate();
+  // Chakra color mode
   const textColor = useColorModeValue("gray.700", "white");
   const bgForm = useColorModeValue("white", "navy.800");
   const titleColor = useColorModeValue("gray.700", "blue.500");
@@ -35,45 +33,34 @@ function SetPin() {
   const bgIcons = useColorModeValue("trasnparent", "navy.700");
   const bgIconsHover = useColorModeValue("gray.50", "whiteAlpha.100");
 
-  const LoginSchema = Yup.object().shape({
-    pin: Yup.number('PIN must be numeric.')
-
-      .required('PIN is required').typeError('PIN must be numeric.'),
-    pin2: Yup.number('PIN must be numeric.')
-      // .min(100000, 'Too Short. Please enter a valid PIN.')
-
-      .required('PIN is required').typeError('PIN must be numeric.')
-      .oneOf([Yup.ref('pin'), null], "PINs do not match")
-  });
-
   const formik = useFormik({
     initialValues: {
-
-      pin: '',
-      pin2: '',
+      number: '',
+      pin: ''
     },
-    validationSchema: LoginSchema,
-    onSubmit: () => {
+    validationSchema: Yup.object().shape({
+      number: Yup.number().max(9999999999).typeError('Phone number must be numeric').required('Number is required'),
+      pin: Yup.number().max(999999).typeError('PIN must be numeric').required('PIN is required')
 
-      const ciphertext = CryptoJS.HmacSHA256(values.pin, localStorage.getItem('number')).toString();
-      console.log('cipher', ciphertext);
-
-      navigate('/signin');
-      // axios.post('/auth/setPIN', { pin: ciphertext, number: localStorage.getItem('number') }).then((res) => {
-      //   console.log('setPIN', res.data);
-      //   if (res.data === "Success") {
-      //     navigate('/signin');
-      //   }
-      // })
-      //   .catch((err) => {
-      //     console.log('err', err);
-      //   })
-
-
+    }),
+    onSubmit: async (values, { setErrors, setStatus, setSubmitting }) => {
+      try {
+        setStatus({ success: false });
+        setSubmitting(false);
+        console.log('click');
+        navigate('/profile/enterprise');
+      } catch (err) {
+        console.error(err);
+        setStatus({ success: false });
+        setErrors({ submit: err.message });
+        setSubmitting(false);
+      }
     }
+
   });
 
   const { touched, errors, handleBlur, handleChange, isSubmitting, handleSubmit, values, getFieldProps } = formik;
+
   return (
     <Flex position='relative' mb='40px'>
       <Flex
@@ -91,7 +78,7 @@ function SetPin() {
           alignItems='center'
           justifyContent='center'
           mb='60px'
-          mt={{ base: "50px", md: "50px" }}>
+          mt={{ base: "50px", md: "20px" }}>
           <Flex
             zIndex='2'
             direction='column'
@@ -112,67 +99,61 @@ function SetPin() {
               fontWeight='bold'
               textAlign='center'
               mb='22px'>
-              Set PIN
-            </Text>
-            <Text
-              fontSize='lg'
-              color='gray.400'
-              fontWeight='bold'
-              textAlign='left'
-              mb='20px'>
-              Create a six digit PIN of your choice.
+              Sign In
             </Text>
             <FormikProvider value={formik}>
               <Form noValidate onSubmit={handleSubmit}>
-                <label>
-                  PIN
-                </label>
                 <Input
                   variant='auth'
                   fontSize='sm'
+                  value={values.number}
+                  maxLength={10}
+                  onChange={handleChange}
                   ms='4px'
+                  type='tel'
+                  name="number"
+                  pattern="[0-9]{10}"
+
+                  placeholder='Enter your Mobile Number'
+                  my='12px'
+                  size='lg'
+                  error={Boolean(touched.number && errors.number)}
+                  required
+                />
+                {touched.number && errors.number && (
+
+                  <Text color="red">
+                    {errors.number}
+                  </Text>
+
+
+                )}
+                <Input
+                  variant='auth'
+                  fontSize='sm'
                   value={values.pin}
                   onChange={handleChange}
+                  ms='4px'
                   type='password'
                   name="pin"
-                  minLength="6"
-                  maxLength="6"
                   placeholder='Enter PIN'
-                  mb='24px'
-                  error={Boolean(touched.pin && errors.pin)}
+                  maxLength="6"
+                  my='12px'
                   size='lg'
-
+                  error={errors.pin}
+                  required
                 />
                 {touched.pin && errors.pin && (
                   <Text color="red">
                     {errors.pin}
                   </Text>
                 )}
-                <label>
-
-                  Confirm PIN
-                </label>
-                <Input
-                  variant='auth'
-                  fontSize='sm'
-                  value={values.pin2}
-                  onChange={handleChange}
-                  ms='4px'
-                  type='password'
-                  minLength="6"
-                  maxLength="6"
-                  name="pin2"
-                  placeholder='Re-Enter PIN'
-                  mb='24px'
-                  error={Boolean(touched.pin2 && errors.pin2)}
-                  size='lg'
-
-                />
-                {touched.pin2 && errors.pin2 && (
-                  <Text color="red">
-                    {errors.pin2}
-                  </Text>
-                )}
+                {/* <FormControl display='flex' alignItems='center' mb='24px'>
+                  <Switch id='remember-login' colorScheme='blue' me='10px' />
+                  <FormLabel htmlFor='remember-login' mb='0' fontWeight='normal'>
+                    Remember me
+                  </FormLabel>
+                </FormControl> */}
                 <Button
                   fontSize='16px'
                   variant='dark'
@@ -181,9 +162,15 @@ function SetPin() {
                   h='45'
                   my='12px'
                   type="submit">
-                  CREATE PIN
+                  SIGN IN
                 </Button>
               </Form>
+              <Stack alignItems="flex-end">
+                <Link as={RouterLink} color='teal.500' to="/setPin">
+                  Forgot PIN?
+                </Link>
+              </Stack>
+
             </FormikProvider>
           </Flex>
         </Flex>
@@ -206,4 +193,4 @@ function SetPin() {
   );
 }
 
-export default SetPin;
+export default SignIn;

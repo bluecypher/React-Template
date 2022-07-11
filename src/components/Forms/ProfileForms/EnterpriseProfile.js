@@ -50,7 +50,7 @@ function EnterpriseProfile() {
     validationSchema: Yup.object().shape({
       EnterpriseName: Yup.string().max(255).required('Enterprise Name is required'),
       Name: Yup.string().max(255).required('Name is required'),
-      Pincode: Yup.string().max(255).required('PIN is required'),
+      Pincode: Yup.number().max(999999).typeError('PIN must be numeric').required('PIN is required'),
       Address: Yup.string().max(255).required('Address is required'),
       UPI: Yup.string().max(100).required('UPI ID is required'),
 
@@ -113,12 +113,12 @@ function EnterpriseProfile() {
                 required
               />
               {touched.EnterpriseName && errors.EnterpriseName && (
-                  <Text color="red">
-                    {errors.EnterpriseName}
-                  </Text>
-                )}
+                <Text color="red">
+                  {errors.EnterpriseName}
+                </Text>
+              )}
             </Stack>
-            
+
             <Stack width="100%">
 
               <label>
@@ -127,7 +127,7 @@ function EnterpriseProfile() {
               <Input
                 variant='auth'
                 fontSize='sm'
-                
+
                 ms='4px'
                 type='file'
                 name="EnterpriseLogo"
@@ -139,29 +139,29 @@ function EnterpriseProfile() {
             </Stack>
           </HStack>
           <Stack mb='10px'>
-          <label >
-            Your Name
-          </label>
-          <Input
-            variant='auth'
-            fontSize='sm'
-            value={values.Name}
-            onChange={handleChange}
-            ms='4px'
-            type='text'
-            name="Name"
-            id="Name"
-            placeholder="Enter Your Name"
-            // mb='10px'
-            size='lg'
-            required
-          />
-          {touched.Name && errors.Name && (
-                  <Text color="red">
-                    {errors.Name}
-                  </Text>
-                )}
-                </Stack>
+            <label >
+              Your Name
+            </label>
+            <Input
+              variant='auth'
+              fontSize='sm'
+              value={values.Name}
+              onChange={handleChange}
+              ms='4px'
+              type='text'
+              name="Name"
+              id="Name"
+              placeholder="Enter Your Name"
+              // mb='10px'
+              size='lg'
+              required
+            />
+            {touched.Name && errors.Name && (
+              <Text color="red">
+                {errors.Name}
+              </Text>
+            )}
+          </Stack>
           <label>
             PIN Code
           </label>
@@ -181,10 +181,10 @@ function EnterpriseProfile() {
             required
           />
           {touched.Pincode && errors.Pincode && (
-                  <Text color="red">
-                    {errors.Pincode}
-                  </Text>
-                )}
+            <Text color="red">
+              {errors.Pincode}
+            </Text>
+          )}
           <HStack my='10px' justifyContent="space-between">
             <Stack width="100%">
               <label>
@@ -225,28 +225,28 @@ function EnterpriseProfile() {
               </label>
             </Stack>
           </HStack>
-          <Stack  my='10px'>
-          <label>Address
-            <Textarea
-              // variant='auth'
-              fontSize='sm'
-              ms='4px'
-              
-              value={values.Address}
-              onChange={handleChange}
-              name="Address"
-              id="Address"
-              placeholder="Enter Your Address"
-              // mb='14px'
-              required
-            />
-          </label>
-          {touched.Address && errors.Address && (
-                  <Text color="red">
-                    {errors.Address}
-                  </Text>
-                )}
-                </Stack>
+          <Stack my='10px'>
+            <label>Address
+              <Textarea
+                // variant='auth'
+                fontSize='sm'
+                ms='4px'
+
+                value={values.Address}
+                onChange={handleChange}
+                name="Address"
+                id="Address"
+                placeholder="Enter Your Address"
+                // mb='14px'
+                required
+              />
+            </label>
+            {touched.Address && errors.Address && (
+              <Text color="red">
+                {errors.Address}
+              </Text>
+            )}
+          </Stack>
           <label mt='10px'>UPI ID
             <Input
               variant='auth'
@@ -264,19 +264,19 @@ function EnterpriseProfile() {
             />
           </label>
           {touched.UPI && errors.UPI && (
-                  <Text color="red">
-                    {errors.UPI}
-                  </Text>
-                )}
+            <Text color="red">
+              {errors.UPI}
+            </Text>
+          )}
           <Stack
-          mt='10px'
+            mt='10px'
             alignItems="center"
           >
             <Button
               fontSize='16px'
               variant='dark'
               fontWeight='bold'
-              
+
               w='50%'
               h='45'
               my='12px'
@@ -286,9 +286,9 @@ function EnterpriseProfile() {
             </Button>
           </Stack>
         </Form>
-        </FormikProvider>
-      </>
-      );
+      </FormikProvider>
+    </>
+  );
 }
 
-      export default EnterpriseProfile;
+export default EnterpriseProfile;
