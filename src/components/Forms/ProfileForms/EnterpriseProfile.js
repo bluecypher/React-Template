@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import * as Yup from 'yup';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { FormikProvider, useFormik, Form } from 'formik';
@@ -21,6 +21,8 @@ import {
   Stack,
 } from "@chakra-ui/react";
 
+import SuggestionsListComponent from "components/SuggestionList";
+import PINCODE from "variables/pincodes";
 
 
 // Assets
@@ -30,11 +32,43 @@ function EnterpriseProfile() {
   // Chakra color mode
   const navigate = useNavigate();
   const textColor = useColorModeValue("gray.700", "white");
-  const bgForm = useColorModeValue("white", "navy.800");
-  const titleColor = useColorModeValue("gray.700", "blue.500");
-  const colorIcons = useColorModeValue("gray.700", "white");
-  const bgIcons = useColorModeValue("trasnparent", "navy.700");
-  const bgIconsHover = useColorModeValue("gray.50", "whiteAlpha.100");
+  // const bgForm = useColorModeValue("white", "navy.800");
+  // const titleColor = useColorModeValue("gray.700", "blue.500");
+  // const colorIcons = useColorModeValue("gray.700", "white");
+  // const bgIcons = useColorModeValue("trasnparent", "navy.700");
+  // const bgIconsHover = useColorModeValue("gray.50", "whiteAlpha.100");
+
+  const [filteredSuggestions, setFilteredSuggestions] = useState([]);
+  const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [pinInput, setPinInput] = useState("");
+  const [showItemList, setShowItemList] = useState(false);
+
+  const handlePINChange = (e) => {
+    const userInput = e.target.value;
+    setShowItemList(true);
+    // console.log('jsdj')
+    // Filter our suggestions that don't contain the user's input
+    const unLinked = PINCODE.filter(
+      (suggestion) =>
+        suggestion.Pincode.toLowerCase().indexOf(userInput.toLowerCase()) > -1
+    );
+
+    setPinInput(e.target.value);
+    setFilteredSuggestions(unLinked);
+    setActiveSuggestionIndex(0);
+    setShowSuggestions(true);
+  }
+
+  const onItemClick = (e, item) =>{
+    setPinInput(item.Pincode);
+    console.log('sfdsf',item.Pincode);
+    formik.setFieldValue('City_District',item.Office);
+    formik.setFieldValue('StateName', item.StateName);
+    
+    setShowItemList(false);
+  }
+
   const formik = useFormik({
     initialValues: {
       EnterpriseName: '',
@@ -168,8 +202,8 @@ function EnterpriseProfile() {
           <Input
             variant='auth'
             fontSize='sm'
-            value={values.Pincode}
-            onChange={handleChange}
+            value={pinInput}
+            onChange={(event)=>handlePINChange(event)}
             ms='4px'
             type='tel'
             maxLength="6"
@@ -180,27 +214,30 @@ function EnterpriseProfile() {
             size='lg'
             required
           />
-          {touched.Pincode && errors.Pincode && (
+          {showSuggestions && pinInput && showItemList && <SuggestionsListComponent filteredSuggestions={filteredSuggestions}
+           onItemClick={onItemClick}/>}
+          {/* {touched.Pincode && errors.Pincode && (
             <Text color="red">
               {errors.Pincode}
             </Text>
-          )}
+          )} */}
           <HStack my='10px' justifyContent="space-between">
             <Stack width="100%">
               <label>
                 City/District
-
                 <Input
                   variant='auth'
                   fontSize='sm'
                   ms='4px'
                   type='text'
+                  value={values.City_District}
                   name="City_District"
                   id="City_District"
-                  placeholder="City/District -- AUTOFILL --"
+                  placeholder="City/District"
                   // mb='14px'
                   size='lg'
                   disabled
+                  // onMouseOver={this.style.cursor='not-allowed'}
                   required
                 // ToDo function for AUTOFILL
                 />
@@ -213,9 +250,10 @@ function EnterpriseProfile() {
                   fontSize='sm'
                   ms='4px'
                   type='text'
+                  value={values.StateName}
                   name="StateName"
                   id="StateName"
-                  placeholder="State -- AUTOFILL --"
+                  placeholder="State"
                   // mb='14px'
                   size='lg'
                   required
@@ -231,7 +269,6 @@ function EnterpriseProfile() {
                 // variant='auth'
                 fontSize='sm'
                 ms='4px'
-
                 value={values.Address}
                 onChange={handleChange}
                 name="Address"
@@ -276,7 +313,6 @@ function EnterpriseProfile() {
               fontSize='16px'
               variant='dark'
               fontWeight='bold'
-
               w='50%'
               h='45'
               my='12px'
